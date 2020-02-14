@@ -7,24 +7,32 @@ JMSD_SHOW_PROJECT_HEADER()
 
 
 include( ${JMSD_COMPONENT_CMAKE_SETTINGS_PATH}/tpc-sfml-lib-set-compiler-settings.cmake )
-set( JMSD_THIS_PROJECT_SOURCE_ROOT ${JMSD_COMPONENT_SOURCE_ROOT_PATH}/include )
+set( JMSD_THIS_PROJECT_SOURCE_ROOT ${JMSD_COMPONENT_SOURCE_ROOT_PATH} )
 
 ## include dependencies
 set( ${PROJECT_NAME}_DEPENDENCY_DIRS_VAR
 	${JMSD_PLATFORM_SOURCES}
 	${tpc_openal_DEPENDENCY_DIRS}
-	${JMSD_THIS_PROJECT_SOURCE_ROOT} )
+	${tpc_vorbis_DEPENDENCY_DIRS}
+	${tpc_flac_DEPENDENCY_DIRS}
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/include )
 list( REMOVE_DUPLICATES ${PROJECT_NAME}_DEPENDENCY_DIRS_VAR )
 include_directories( ${${PROJECT_NAME}_DEPENDENCY_DIRS_VAR} )
-include_directories( ${JMSD_COMPONENT_SOURCE_ROOT_PATH}/src )
+include_directories( ${JMSD_THIS_PROJECT_SOURCE_ROOT}/src )
+include_directories( ${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/glad/include )
+include_directories( ${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/stb_image )
 
 
 ## this project headers and sources enumeration section
 file( GLOB_RECURSE header_and_source_files
-	${JMSD_COMPONENT_SOURCE_ROOT_PATH}/include/*.h*
-	${JMSD_COMPONENT_SOURCE_ROOT_PATH}/include/*.c*
-	${JMSD_COMPONENT_SOURCE_ROOT_PATH}/src/*.h*
-	${JMSD_COMPONENT_SOURCE_ROOT_PATH}/src/*.c*	)
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/include/*.h*
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/include/*.c*
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/src/*.h*
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/src/*.c*
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/glad/include/*.h*
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/glad/include/*.c*
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/stb_image/*.h*
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/stb_image/*.c* )
 add_library( ${PROJECT_NAME} SHARED ${header_and_source_files} )
 
 
@@ -36,11 +44,15 @@ set( ${PROJECT_NAME}_BUILD_DEFINITIONS_VAR
 	-DSFML_NETWORK_EXPORTS
 	-DSFML_SYSTEM_EXPORTS
 	-DSFML_WINDOW_EXPORTS
-	${tpc_openal_LINK_DEFINITIONS} )
+	${tpc_openal_LINK_DEFINITIONS}
+	${tpc_vorbis_LINK_DEFINITIONS}
+	${tpc_flac_LINK_DEFINITIONS} )
 JMSD_LIST_TO_STRING( ${PROJECT_NAME}_BUILD_DEFINITIONS_VAR )
 JMSD_STRING_REMOVE_DUPLICATES( ${PROJECT_NAME}_BUILD_DEFINITIONS_VAR )
 set( ${PROJECT_NAME}_LINK_DEFINITIONS_VAR
-	${tpc_openal_LINK_DEFINITIONS} )
+	${tpc_openal_LINK_DEFINITIONS}
+	${tpc_vorbis_LINK_DEFINITIONS}
+	${tpc_flac_LINK_DEFINITIONS} )
 JMSD_LIST_TO_STRING( ${PROJECT_NAME}_LINK_DEFINITIONS_VAR )
 JMSD_STRING_REMOVE_DUPLICATES( ${PROJECT_NAME}_LINK_DEFINITIONS_VAR )
 add_definitions( "${${PROJECT_NAME}_BUILD_DEFINITIONS_VAR}" )
@@ -55,7 +67,11 @@ set_target_properties( ${PROJECT_NAME} PROPERTIES SOVERSION 0.1 )
 ## project target section
 set( ${PROJECT_NAME}_DEPENDENCY_LIBS_VAR
 	${tpc_openal_DEPENDENCY_LIBS}
-	tpc_openal )
+	${tpc_vorbis_DEPENDENCY_LIBS}
+	${tpc_flac_DEPENDENCY_LIBS}
+	tpc_openal
+	tpc_vorbis
+	tpc_flac )
 list( REMOVE_DUPLICATES ${PROJECT_NAME}_DEPENDENCY_LIBS_VAR )
 target_link_libraries( ${PROJECT_NAME} ${${PROJECT_NAME}_DEPENDENCY_LIBS_VAR} )
 
