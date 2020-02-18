@@ -19,9 +19,12 @@ set( ${PROJECT_NAME}_DEPENDENCY_DIRS_VAR
 	${JMSD_THIS_PROJECT_SOURCE_ROOT}/include )
 list( REMOVE_DUPLICATES ${PROJECT_NAME}_DEPENDENCY_DIRS_VAR )
 include_directories( ${${PROJECT_NAME}_DEPENDENCY_DIRS_VAR} )
-include_directories( ${JMSD_THIS_PROJECT_SOURCE_ROOT}/src )
-include_directories( ${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/glad/include )
-include_directories( ${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/stb_image )
+
+include_directories(
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/src
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/glad/include
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/stb_image
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/vulkan/include )
 
 
 ## this project headers and sources enumeration section
@@ -33,13 +36,16 @@ file( GLOB_RECURSE header_and_source_files
 	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/glad/include/*.h*
 	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/glad/include/*.c*
 	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/stb_image/*.h*
-	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/stb_image/*.c* )
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/stb_image/*.c*
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/vulkan/include/*.h*
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/vulkan/include/*.c* )
 
 set( FILES_TO_REMOVE_HEADER_AND_SOURCE
 	"MainAndroid.cpp"
 	"MainWin32.cpp"
 	"SFMLActivity.cpp"
-	"Vulkan" )
+#	"Vulkan"
+	)
 
 set( PLATFORM_FILES_TO_REMOVE_HEADER_AND_SOURCE
 	"Android"
@@ -71,6 +77,7 @@ set( ${PROJECT_NAME}_BUILD_DEFINITIONS_VAR
 	-DSFML_NETWORK_EXPORTS
 	-DSFML_SYSTEM_EXPORTS
 	-DSFML_WINDOW_EXPORTS
+	-DJMSD_VULKAN_IMPLEMENTATION_NOT_AVAILABLE_FOR_SMFL
 	${tpc_openal_LINK_DEFINITIONS}
 	${tpc_vorbis_LINK_DEFINITIONS}
 	${tpc_flac_LINK_DEFINITIONS}
