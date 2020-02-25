@@ -16,13 +16,13 @@ set( ${PROJECT_NAME}_DEPENDENCY_DIRS_VAR
 	${tpc_vorbis_DEPENDENCY_DIRS}
 	${tpc_flac_DEPENDENCY_DIRS}
 	${tpc_freetype_DEPENDENCY_DIRS}
-	${JMSD_THIS_PROJECT_SOURCE_ROOT}/include )
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/include
+	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/glad/include )
 list( REMOVE_DUPLICATES ${PROJECT_NAME}_DEPENDENCY_DIRS_VAR )
 include_directories( ${${PROJECT_NAME}_DEPENDENCY_DIRS_VAR} )
 
 include_directories(
 	${JMSD_THIS_PROJECT_SOURCE_ROOT}/src
-	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/glad/include
 	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/stb_image
 	${JMSD_THIS_PROJECT_SOURCE_ROOT}/extlibs/headers/vulkan/include )
 
