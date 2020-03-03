@@ -101,17 +101,23 @@ set_target_properties( ${PROJECT_NAME} PROPERTIES SOVERSION 0.1 )
 
 
 ## project target section
-set( ${PROJECT_NAME}_DEPENDENCY_LIBS_VAR
-	${tpc_openal_DEPENDENCY_LIBS}
-	${tpc_vorbis_DEPENDENCY_LIBS}
-	${tpc_flac_DEPENDENCY_LIBS}
-	${tpc_freetype_DEPENDENCY_LIBS}
-	tpc_openal
-	tpc_vorbis
-	tpc_flac
-	tpc_freetype
-	opengl32
-	Ws2_32 )
+if( UNIX )
+	set( ${PROJECT_NAME}_DEPENDENCY_LIBS_VAR
+		"" )
+elseif( WIN32 )
+	set( ${PROJECT_NAME}_DEPENDENCY_LIBS_VAR
+		${tpc_openal_DEPENDENCY_LIBS}
+		${tpc_vorbis_DEPENDENCY_LIBS}
+		${tpc_flac_DEPENDENCY_LIBS}
+		${tpc_freetype_DEPENDENCY_LIBS}
+		tpc_openal
+		tpc_vorbis
+		tpc_flac
+		tpc_freetype
+		opengl32
+		Ws2_32 )
+endif()
+
 list( REMOVE_DUPLICATES ${PROJECT_NAME}_DEPENDENCY_LIBS_VAR )
 target_link_libraries( ${PROJECT_NAME} ${${PROJECT_NAME}_DEPENDENCY_LIBS_VAR} )
 
